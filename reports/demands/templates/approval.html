@@ -41,7 +41,7 @@
                                                         </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    ...
+
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -66,4 +66,11 @@
         </div>
     </div>
 </form>
+<script>
+    $("#exampleModal").on('shown.bs.modal', function(e) {
+        var sourceElement = e.relatedTarget;
+        var id = $(sourceElement).closest('tr').find("td:first").text();
+        alert(id);
+    })
+</script>
 {% endblock %}
