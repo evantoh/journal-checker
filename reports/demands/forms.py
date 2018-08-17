@@ -86,3 +86,9 @@ class CreditForm(forms.Form):
     credit_gl = forms.ChoiceField(required=True,label='credit_gl', widget=forms.Select(attrs={'class':'debit_glform1'}))
     credit_branch = forms.ChoiceField(required=True,label='credit_branch',widget=forms.Select(attrs={'class':'debit_branch1'}))
 CreitFormset = formset_factory(CreditForm, extra=1)
+
+
+class DetailsForm(forms.Form):
+    details=forms.CharField()
+    Approve=forms.CheckboxInput()
+    Reject=forms.CheckboxInput()

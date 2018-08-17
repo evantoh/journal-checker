@@ -20,7 +20,7 @@ import xlwt
 from .forms import PremierReportForm
 
 from .models import premier_log_refined,Journal_Entry
-from .forms import EntryJournalForm
+from .forms import EntryJournalForm,DetailsForm
 from .forms import BookFormset,DebitFormset,CreitFormset
 from .models import Book,Gl_accounts
 
@@ -261,3 +261,8 @@ def journal_approval(request):
                 {'table':table,
                 'title': 'Approve Journals'})
     
+
+def details_form(request):
+    details_form =DetailsForm(request.POST or None)
+    
+    # if details_form.is_valid():

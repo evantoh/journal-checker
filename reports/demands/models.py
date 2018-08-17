@@ -24,6 +24,12 @@ class Journal_Entry(models.Model):
     def __str__(self):
         return self.notes
 
+class Modal_Details(models.Model):
+    details=models.ForeignKey('Journal_Entry',on_delete=models.CASCADE,)
+    approve=models.BooleanField()
+    reject=models.BooleanField()
+    
+
 class Book(models.Model):
     name = models.CharField(max_length=255)
     isbn_number = models.CharField(max_length=13)
