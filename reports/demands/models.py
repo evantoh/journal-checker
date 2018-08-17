@@ -16,7 +16,7 @@ class Journal_Entry(models.Model):
     credit_amount=models.DecimalField(max_digits=10, decimal_places=2)
     credit_glaccount=models.CharField(max_length=32)
     credit_branch=models.CharField(max_length=255)
-    entry_date=models.CharField(max_length=20,null=True)
+    entry_date=models.DateField(max_length=20,null=True)
     notes=models.CharField(max_length=255)
     status=models.CharField(max_length=20,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -24,11 +24,17 @@ class Journal_Entry(models.Model):
     def __str__(self):
         return self.notes
 
-class Modal_Details(models.Model):
-    details=models.ForeignKey('Journal_Entry',on_delete=models.CASCADE,)
-    approve=models.BooleanField()
-    reject=models.BooleanField()
-    
+class Approve_Rejection(models.Model):
+    journal_id=models.DecimalField(max_digits=10, decimal_places=2,null=True)
+    created_at=models.DateTimeField(auto_now_add=True,null=True)
+    entryDate = models.DateField(max_length=20,null=True)
+    user=models.CharField(max_length=20,null=True)
+    debit=models.DecimalField(max_digits=10, decimal_places=2)
+    credit=models.DecimalField(max_digits=10, decimal_places=2)
+    branch = models.CharField(max_length=255)
+    approve_reject = models.CharField(max_length=255)
+    reasons=models.CharField(max_length=255)
+    approved_by=models.CharField(max_length=20,null=True)    
 
 class Book(models.Model):
     name = models.CharField(max_length=255)
