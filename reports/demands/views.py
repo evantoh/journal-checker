@@ -252,8 +252,8 @@ def journal_approval(request):
         dr_amount=data.debit_amount
         cr_amount=data.credit_amount
         notes=data.notes
-        details="click here for more details"
-        append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes,details)
+        # details="click here for more details"
+        append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes)
         table.append(append_data)        
     
 

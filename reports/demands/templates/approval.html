@@ -25,7 +25,10 @@
                                 <th style="white-space: nowrap">{{ cell }}</th>
                                 {% endfor %} {% else %} {% for cell in record %}
                                 <td style="white-space: pre-wrap ">{{ cell }}</td>
-                                {% endfor %} {% endif %}
+
+                                {% endfor %}
+                                <td><a href="{% url 'book_journal' %}">click for more infor</a></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </table>
