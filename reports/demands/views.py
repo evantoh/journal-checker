@@ -20,9 +20,9 @@ import xlwt
 from .forms import PremierReportForm
 
 from .models import premier_log_refined,Journal_Entry
-from .forms import EntryJournalForm,DetailsForm
+from .forms import EntryJournalForm,DetailsForm,popupForm
 from .forms import BookFormset,DebitFormset,CreitFormset
-from .models import Book,Gl_accounts
+from .models import Book,Gl_accounts,Approve_Rejection
 
 # function to create the gl_accounts of all type
 # def save_glaccounts(request):
@@ -216,6 +216,7 @@ def premierdemands_report(request):
 def journal_entry(request):
     journal_form =EntryJournalForm(request.POST or None)
     
+    
     if journal_form.is_valid():
         debit_amount = journal_form.cleaned_data['debit']
         debit_glaccount= journal_form.cleaned_data['debit_gl']
@@ -225,6 +226,9 @@ def journal_entry(request):
         credit_branch=journal_form.cleaned_data['credit_branch']
         entryDate=journal_form.cleaned_data['entryDate']
         notes=journal_form.cleaned_data['notes']
+
+     
+
 
         Journal_Entry(
             debit_amount= debit_amount,
@@ -237,11 +241,13 @@ def journal_entry(request):
             notes=notes,
             status="pending"
         ).save()
-
-    context= { 'form': journal_form}
+        return HttpResponse('Your journal was successfully created,THANK YOU NIGGA')
+    context= { 'form': journal_form,}
     return render(request,'journal_entry.html', context)
 
 def journal_approval(request):
+    popup_form =popupForm(request.POST or None)
+
     journal_data=Journal_Entry.objects.all()
     table = [('JOURNAL#','CREATION DATE','ENTRY_DATE','USER','DR AMOUNT','CR AMOUNT','NOTES','BRANCH','DETAILS')]
     for data in journal_data:
@@ -254,15 +260,37 @@ def journal_approval(request):
         notes=data.notes
         branch=data.debit_branch
         append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes,branch)
-        table.append(append_data)        
-    
+        table.append(append_data)
+
+    if popup_form.is_valid():
+        journal_id= popup_form.cleaned_data['journal_id']
+        created_at= popup_form.cleaned_data['created_at']
+        entryDate= popup_form.cleaned_data['entryDate']
+        user= popup_form.cleaned_data['user']
+        debit= popup_form.cleaned_data['debit']
+        credit= popup_form.cleaned_data['credit']
+        branch= popup_form.cleaned_data['branch']
+        approve_reject= popup_form.cleaned_data['approve_reject']
+        reasons= popup_form.cleaned_data['reasons']
+        approved_by= popup_form.cleaned_data['approved_by']
+
+        Approve_Rejection(
+            journal_id=journal_id,
+            created_at=created_at,
+            entryDate =entryDate,
+            user="USER",
+            debit=debit,
+            credit=credit,
+            branch =branch,
+            approve_reject =approve_reject, 
+            reasons=reasons,
+            approved_by=approved_by
+
+        ).save()
 
     return render(request,'approval.html',
                 {'table':table,
+                'form':popup_form,
                 'title': 'Approve Journals'})
     
 
-def details_form(request):
-    details_form =DetailsForm(request.POST or None)
-    
-    # if details_form.is_valid():
