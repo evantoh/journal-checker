@@ -37,7 +37,7 @@ class EntryJournalForm(forms.Form):
     for rw in branches_load:
         encodedKey=rw.get('encodedKey')
         name= rw.get('name')
-        TYPES.append([encodedKey, str(name)])
+        TYPES.append([encodedKey,str(name)])
 
     TYPE_BRANCH = [('', '-------------------------------')] + TYPES
 
