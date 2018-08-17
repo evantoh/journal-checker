@@ -243,7 +243,7 @@ def journal_entry(request):
 
 def journal_approval(request):
     journal_data=Journal_Entry.objects.all()
-    table = [('JOURNAL#','CREATION DATE','ENTRY_DATE','USER','DR AMOUNT','CR AMOUNT','NOTES','DETAILS')]
+    table = [('JOURNAL#','CREATION DATE','ENTRY_DATE','USER','DR AMOUNT','CR AMOUNT','NOTES','STATUS','DETAILS')]
     for data in journal_data:
         journal_id=data.id
         created_at=data.created_at
@@ -252,8 +252,8 @@ def journal_approval(request):
         dr_amount=data.debit_amount
         cr_amount=data.credit_amount
         notes=data.notes
-        # details="click here for more details"
-        append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes)
+        status=data.status
+        append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes,status)
         table.append(append_data)        
     
 
