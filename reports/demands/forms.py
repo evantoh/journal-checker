@@ -59,7 +59,7 @@ class EntryJournalForm(forms.Form):
     credit_branch = forms.ChoiceField(label='',choices=TYPE_BRANCH,required=True,widget=forms.Select(attrs={'class':'credit_branch'}))
     entryDate = forms.DateField(widget=forms.TextInput(attrs={'class':'datepicker'}),required=True, label='Entry Date')
     notes = forms.CharField(widget=forms.Textarea(attrs={'class' : 'notesform'}),required=True,label='Notes')
-
+    # approved_by=forms.CharField(label='Approved By')
 # EntryJournalFormset= formset_factory(EntryJournalForm, extra=2)
 
 # approval form
