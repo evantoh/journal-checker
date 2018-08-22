@@ -24,17 +24,18 @@ class Journal_Entry(models.Model):
     def __str__(self):
         return self.notes
 
-class Approve_Rejection(models.Model):
-    journal_id=models.DecimalField(max_digits=10, decimal_places=2,null=True)
-    created_at=models.DateTimeField(auto_now_add=True,null=True)
-    entryDate = models.DateField(max_length=20,null=True)
-    user=models.CharField(max_length=20,null=True)
-    debit=models.DecimalField(max_digits=10, decimal_places=2)
-    credit=models.DecimalField(max_digits=10, decimal_places=2)
-    branch = models.CharField(max_length=255)
-    approve_reject = models.CharField(max_length=255)
-    reasons=models.CharField(max_length=255)
-    approved_by=models.CharField(max_length=20,null=True)    
+class Approve_Rejection1(models.Model):
+    # journal_id=models.DecimalField(max_digits=10, decimal_places=2,null=True)
+    # created_at=models.DateTimeField(auto_now_add=True,null=True)
+    # entryDate = models.DateField(max_length=20,null=True)
+    title=models.CharField(max_length=20,null=True)
+    # debit=models.DecimalField(max_digits=10, decimal_places=2)
+    # credit=models.DecimalField(max_digits=10, decimal_places=2)
+    # branch = models.CharField(max_length=255)
+    # approve_reject = models.CharField(max_length=255)
+    # reasons=models.CharField(max_length=255)
+    # approved_by=models.CharField(max_length=20,null=True) 
+   
 
 class Book(models.Model):
     name = models.CharField(max_length=255)
@@ -53,4 +54,12 @@ class Gl_accounts(models.Model):
     name=models.CharField(max_length=255)
 
 # class Journal_Approval(models.Model):
-
+class Approve_Rejection(models.Model):
+    details = models.OneToOneField(
+       Journal_Entry,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+    approve_reject = models.CharField(max_length=255)
+    reasons=models.CharField(max_length=255)
+    approved_by=models.CharField(max_length=20,null=True)

@@ -241,56 +241,44 @@ def journal_entry(request):
             notes=notes,
             status="pending"
         ).save()
-        return HttpResponse('Your journal was successfully created,THANK YOU NIGGA')
+        return HttpResponse('Your journal was successfully created,THANK YOU !')
     context= { 'form': journal_form,}
     return render(request,'journal_entry.html', context)
 
 def journal_approval(request):
     popup_form =popupForm(request.POST or None)
-
     journal_data=Journal_Entry.objects.all()
     table = [('JOURNAL#','CREATION DATE','ENTRY_DATE','USER','DR AMOUNT','CR AMOUNT','NOTES','BRANCH','DETAILS')]
     for data in journal_data:
         journal_id=data.id
+        dr_amount=data.debit_amount
+        debit_glaccount=data.debit_glaccount
+        debit_branch=data.debit_branch
+        cr_amount=data.credit_amount
+        credit_glaccount=data.credit_glaccount
+        credit_branch=data.credit_branch
         created_at=data.created_at
         entry_date=data.entry_date
-        user="USER1"
-        dr_amount=data.debit_amount
-        cr_amount=data.credit_amount
         notes=data.notes
-        branch=data.debit_branch
-        append_data = (journal_id,created_at,entry_date,user,dr_amount,cr_amount,notes,branch)
+        append_data = (journal_id,dr_amount,debit_glaccount,debit_branch,cr_amount,credit_glaccount,credit_branch,created_at,entry_date,notes)
         table.append(append_data)
 
     if popup_form.is_valid():
-        journal_id= popup_form.cleaned_data['journal_id']
-        created_at= popup_form.cleaned_data['created_at']
-        entryDate= popup_form.cleaned_data['entryDate']
-        user= popup_form.cleaned_data['user']
-        debit= popup_form.cleaned_data['debit']
-        credit= popup_form.cleaned_data['credit']
-        branch= popup_form.cleaned_data['branch']
         approve_reject= popup_form.cleaned_data['approve_reject']
-        reasons= popup_form.cleaned_data['reasons']
-        approved_by= popup_form.cleaned_data['approved_by']
-
-        Approve_Rejection(
-            journal_id=journal_id,
-            created_at=created_at,
-            entryDate =entryDate,
-            user="USER",
-            debit=debit,
-            credit=credit,
-            branch =branch,
-            approve_reject =approve_reject, 
-            reasons=reasons,
-            approved_by=approved_by
-
-        ).save()
+ 
 
     return render(request,'approval.html',
                 {'table':table,
-                'form':popup_form,
+                'data': journal_data,
+                'form_pop':popup_form,
                 'title': 'Approve Journals'})
     
 
+def rejected_appr(request):
+
+    if 'BTNVal' in request.post:
+        # req == request.POST
+        print (yes)
+    return render(request,'approve_reject.html')
+       
+    

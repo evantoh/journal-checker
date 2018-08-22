@@ -64,23 +64,14 @@ class EntryJournalForm(forms.Form):
 
 # approval form
 class popupForm(forms.Form):
-    TYPES  = [
+    TYPES = [
         ('', '--------------'),
         ('Approve','Approve'),
         ('Reject ','Reject')
 
     ]
-    journal_id = forms.IntegerField(label='JOURNAL #')
-    created_at=forms.DateTimeField(label='CREATED AT',required=False)
-    entryDate = forms.DateField(widget=forms.TextInput(attrs={'class':'datepicker'}),required=True, label='Entry Date')
-    user=forms.CharField(label='USER',required=False)
-    debit=forms.DecimalField(widget=forms.TextInput(attrs={'placeholder': 'Ksh'}),max_digits=10, decimal_places=2,required=True, label='Debit')
-    credit=forms.DecimalField(widget=forms.TextInput(attrs={'placeholder': 'Ksh'}),required=True,max_digits=10, decimal_places=2, label='Credit')
-    branch = forms.CharField(label='BRANCH',required=True)
     approve_reject = forms.ChoiceField(required=True,label='Approve/Reject',choices=TYPES,widget=forms.Select(attrs={'class':'debit_branch1'}))
-    reasons = forms.CharField(widget=forms.Textarea(attrs={'class' : 'notesform'}),required=False,label='Reason for Approval/Reject')
-    approved_by=forms.CharField(label='Approved By')
-
+   
 
 
 
@@ -113,3 +104,4 @@ class DetailsForm(forms.Form):
     details=forms.CharField()
     Approve=forms.CheckboxInput()
     Reject=forms.CheckboxInput()
+    

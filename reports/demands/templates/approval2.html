@@ -6,6 +6,12 @@
 <script src="{% static 'js/reports_dates.js' %}"></script>
 {% endblock scripts %}
 <form method="post">
-    {% csrf_token %} {{ form|crispy }}
+    {% csrf_token %} {{ form }} {% for product in journals %}
+    <a href="{% url 'update_products' product.id %}">
+        <li>{{product.id}}</li>
+    </a>
+
+    {% endfor %}
+    </ul>
 </form>
 {% endblock %}

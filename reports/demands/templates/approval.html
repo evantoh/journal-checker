@@ -1,77 +1,126 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}{% load static %} {% block style %}
-<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %} {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/overcast/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="{% static 'js/reports_dates.js' %}"></script>
-{% endblock scripts %}
-<form method="post">
-    {% csrf_token %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="journal_header">{{ title }}</h3>
-        </div>
+<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %}
 
-        <div class="panel-body">
-
-            <div class="panel panel-default">
-
-                <div class="panel-body">
-                    <div class="table-responsive" style="overflow-x: auto">
-                        <table class="table table-striped table-hover">
-                            {% for record in table %}
-                            <tr>
-                                {% if forloop.first %} {% for cell in record %}
-                                <th style="white-space: nowrap">{{ cell }}</th>
-                                {% endfor %} {% else %} {% for cell in record %}
-                                <td style="white-space: pre-wrap ">{{ cell }}</td>
-                                {% endfor %}
-                                <td>
-
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">click to view details</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal{{cell.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">journal approval</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
+<body class="home">
+    <form method="post" action="rejected_appr/" id="form">
+        {% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="journal_header">{{ title }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="table-responsive" style="overflow-x: auto">
+                            <table class="table table-striped table-hover">
+                                <th>Journal #</th>
+                                <th>Creation Date</th>
+                                <th>Entry Date</th>
+                                <th>Dr Amount</th>
+                                <th>Cr Amount</th>
+                                <th>Notes</th>
+                                <th>Branch</th>
+                                <th>Details</th>
+                                {% for item in data %}
+                                <tr>
+                                    <td style="white-space: nowrap">{{ item.id }}</td>
+                                    <td style="white-space: nowrap">{{ item.created_at }}</td>
+                                    <td style="white-space: nowrap">{{ item.entry_date }}</td>
+                                    <td style="white-space: nowrap">{{ item.debit_amount }}</td>
+                                    <td style="white-space: nowrap">{{ item.credit_amount }}</td>
+                                    <td style="white-space: nowrap">{{ item.notes }}</td>
+                                    <td style="white-space: nowrap">{{ item.credit_branch }}</td>
+                                    <td>
+                                        <a class="btn btn-success" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a> {% comment %} <button type="submit" class="btn btn-success" name="BTNval">click to view details</button>                                        {% comment %} {% endcomment %}
+                                        <div class="modal fade" id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+                                            <div class="modal-dialog " role="document ">
+                                                <div class="modal-content ">
+                                                    <div class="modal-header ">
+                                                        <h5 class="modal-title " id="exampleModalLabel ">journal approval for #{{ item.id}}</h5>
+                                                        <button type="button " class="close " data-dismiss="modal " aria-label="Close ">
+                                                            <span aria-hidden="true ">&times;</span>
                                                         </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form method="post">
-                                                        {% csrf_token %} {{ form|crispy }}
-                                                        <button type="submit" class="btn btn-block btn-default retriev_btn">Submit</button>
-                                                    </form>
+                                                    </div>
+                                                    <div class="modal-body ">
+                                                        <form method="POST " action="approved_rejected ">
+                                                            {% csrf_token %}
+                                                            
+                                                            <div class="form-group ">
+                                                                 <label name="title " style="font-size:30px; ">DEBIT AMOUNT:<label>{{item.debit_amount}}
+                                                            </div> 
+                                                            <div class="form-group ">
+                                                                <label>DEBIT GL_ACCOUNT:<label>{{item.debit_glaccount}}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>DEBIT BRANCH <label>{{item.debit_branch}}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT AMOUNT: <label>{{item.credit_amount }}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT GL_ACCOUNT: <label>{{item.credit_glaccount}}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT BRANCH: <label>{{item.credit_branch }}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>ENTRY DATE: <label>{{item.entry_date}}
+                                                            </div>
 
+                                                            <div class="form-group SelectContainer " style="margin-bottom:25%; ">
+                                                                <label class="control-label " for="approve_rejection ">Approve/Reject:</label>
+                                                                <select name="approve_rejection " id="approve_rejection " class="form-control " required>
+                                                                    <option value="none ">----------</option>
+                                                                    <option value="Approve ">Approve</option>
+                                                                    <option value=" ">Reject</option>
+                                                                </select>
+                                                            </div>
+                                                            
+                                                            <div class="form-group " id="hiddenInputContainer ">
+                                                                <input type="text " name="anotherV " id="anotherV " class="form-control " placeholder="Plese enter reasons for rejection ">
+                                                            </div>
+                                                            <button type="submit " class="btn btn-block btn-default retriev_btn ">Submit</button>
+                                                        </form> 
+                                                    </div>
                                                 </div>
-
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        </table>
+                                        </div> 
+                                        <script>
+                                            function RevealInput(){
+                                                switch($('#approve_rejection').val()){
+                                                    case 'Approve':
+                                                        $("#hiddenInputContainer ").hide();
+                                                        break;
 
+                                                    case 'Reject':
+                                                        $("#hiddenInputContainer ").show();
+                                                        break;
 
+                                                    case '--------':
+                                                        $("#hiddenInputContainer ").hide();
+                                                        break;
+                                                }
+                                            }
 
+                                            $(function() {
+                                                $('#approve_rejection').change(function() {
+                                                    RevealInput();    
+                                                });
 
+                                                RevealInput();
+                                            });
+                                        </script>
+                                    </td>
+                                   
+                                </tr>
+                                {% endfor %}
+                            </table>  
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
-</form>
-<script>
-    $("#exampleModal").on('shown.bs.modal', function(e) {
-        var sourceElement = e.relatedTarget;
-        var id = $(sourceElement).closest('tr').find("td:first").text();
-        alert(id);
-    })
-</script>
+    </form>
+</body>
+
 {% endblock %}
