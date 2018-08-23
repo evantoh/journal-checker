@@ -229,7 +229,6 @@ def journal_entry(request):
 
      
 
-
         Journal_Entry(
             debit_amount= debit_amount,
             debit_glaccount=debit_glaccount,
@@ -246,39 +245,31 @@ def journal_entry(request):
     return render(request,'journal_entry.html', context)
 
 def journal_approval(request):
-    popup_form =popupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
-    table = [('JOURNAL#','CREATION DATE','ENTRY_DATE','USER','DR AMOUNT','CR AMOUNT','NOTES','BRANCH','DETAILS')]
-    for data in journal_data:
-        journal_id=data.id
-        dr_amount=data.debit_amount
-        debit_glaccount=data.debit_glaccount
-        debit_branch=data.debit_branch
-        cr_amount=data.credit_amount
-        credit_glaccount=data.credit_glaccount
-        credit_branch=data.credit_branch
-        created_at=data.created_at
-        entry_date=data.entry_date
-        notes=data.notes
-        append_data = (journal_id,dr_amount,debit_glaccount,debit_branch,cr_amount,credit_glaccount,credit_branch,created_at,entry_date,notes)
-        table.append(append_data)
-
-    if popup_form.is_valid():
-        approve_reject= popup_form.cleaned_data['approve_reject']
  
 
     return render(request,'approval.html',
-                {'table':table,
-                'data': journal_data,
-                'form_pop':popup_form,
+                {'data': journal_data,
                 'title': 'Approve Journals'})
+
+# def journal_approval(request):
+
+#     journal_data=Journal_Entry.objects.all()
+
+#     return render(request,'refined.html',
+#                 {'data': journal_data,
+#                 'title': 'Approve Journals'})
+
     
 
-def rejected_appr(request):
 
-    if 'BTNVal' in request.post:
-        # req == request.POST
-        print (yes)
-    return render(request,'approve_reject.html')
+def journalDetails(request, journal_id):
+    try:
+        journal =Journal_Entry.objects.get(pk=journal_id)
+    except school.DoesNotExist:
+        raise Http404
+    return render(request, 'approve_reject.html', {'journal': journal})
+
+    
        
     

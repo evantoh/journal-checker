@@ -24,10 +24,10 @@
     </nav>
 
     <div class="container">
-        <div class="row spacer"></div>
-        <div class="row offset-2">
-
-        </div>
+        {% for item in journal %}
+        <h2>item:{{ item.id }}</h2>
+        {% endfor %}
+    </div>
     </div>
 
 
