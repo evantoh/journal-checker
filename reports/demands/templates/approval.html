@@ -1,38 +1,36 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}{% load static %} {% block style %}
-<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %}
+<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %}{% load bootstrap3 %}
 
 <body class="home">
-    <form method="post" action="single_jounal/" id="form">
-        {% csrf_token %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="journal_header">{{ title }}</h3>
-            </div>
-            <div class="panel-body">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="table-responsive" style="overflow-x: auto">
-                            <table class="table table-striped table-hover" cellpadding='8' cellspacing='10'>
-                                <th>Journal #</th>
-                                <th>Creation Date</th>
-                                <th>Entry Date</th>
-                                <th>Dr Amount</th>
-                                <th>Cr Amount</th>
-                                <th>Notes</th>
-                                <th>Branch</th>
-                                <th>Details</th>
-                                {% for item in data %}
-                                <tr>
-                                    <td style="white-space: nowrap">{{ item.id }}</td>
-                                    <td style="white-space: nowrap">{{ item.created_at }}</td>
-                                    <td style="white-space: nowrap">{{ item.entry_date }}</td>
-                                    <td style="white-space: nowrap">{{ item.debit_amount }}</td>
-                                    <td style="white-space: nowrap">{{ item.credit_amount }}</td>
-                                    <td style="white-space: nowrap">{{ item.notes }}</td>
-                                    <td style="white-space: nowrap">{{ item.credit_branch }}</td>
-                                    <td>
-                                        <a class="btn btn-success" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a> {% comment %} <button type="submit" class="btn btn-success" name="BTNval">click to view details</button>                                        {% endcomment %}
-                                        <div class="modal fade" id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="journal_header">{{ title }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-striped table-hover" cellpadding='8' cellspacing='10'>
+                            <th>Journal #</th>
+                            <th>Creation Date</th>
+                            <th>Entry Date</th>
+                            <th>Dr Amount</th>
+                            <th>Cr Amount</th>
+                            <th>Notes</th>
+                            <th>Branch</th>
+                            <th>Details</th>
+                            {% for item in data %}
+                            <tr>
+                                <td style="white-space: nowrap">{{ item.id }}</td>
+                                <td style="white-space: nowrap">{{ item.created_at }}</td>
+                                <td style="white-space: nowrap">{{ item.entry_date }}</td>
+                                <td style="white-space: nowrap">{{ item.debit_amount }}</td>
+                                <td style="white-space: nowrap">{{ item.credit_amount }}</td>
+                                <td style="white-space: nowrap">{{ item.notes }}</td>
+                                <td style="white-space: nowrap">{{ item.credit_branch }}</td>
+                                <td>
+                                    <a class="btn btn-success" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a> {% comment %} <button type="submit" class="btn btn-success" name="BTNval">click to view details</button>                                    {% endcomment %}
+                                    <div class="modal fade" id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
                                             <div class="modal-dialog " role="document ">
                                                 <div class="modal-content ">
                                                     <div class="modal-header ">
@@ -42,41 +40,37 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body ">
-                                                    
-                                                    <div class="form-group ">
+                                                        <div class="form-group ">
                                                             <label >DEBIT AMOUNT:{{item.debit_amount}}<label>
-                                                    </div> 
-                                                    <div class="form-group ">
-                                                        <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label>DEBIT BRANCH :{{item.debit_branch}}<label>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label>CREDIT BRANCH: <label>{{item.credit_branch }}
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label>ENTRY DATE:{{item.entry_date}} <label>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label for="comment ">Approve</label>
-                                                        <textarea class="form-control " rows="5 " id="approve "></textarea>
-                                                    </div>
-                                                    <div class="form-group ">
-                                                        <label for="comment ">Reject</label>
-                                                        <textarea class="form-control " rows="5 " id="reject "></textarea>
-                                                    </div>
-                                                        <form method="POST " action="approved_rejected ">
-                                                        {% csrf_token %}
-                                                 
-                                                                
-                                                        </form> 
+                                                        </div> 
+                                                        <div class="form-group ">
+                                                            <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>DEBIT BRANCH :{{item.debit_branch}}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT BRANCH: <label>{{item.credit_branch }}
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>ENTRY DATE:{{item.entry_date}} <label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>Status:{{item.status}} <label>
+                                                        </div>
+                                                        <div>
+                                                            <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" ">
+                                                                {{ form|crispy }}
+                                                                <button class="btn btn-primary " type="submit ">Submit</button>
+                                                            </form>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +86,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    
 </body>
 
 {% endblock %}

@@ -8,7 +8,7 @@ urlpatterns = [
     path('premierdemands_report/', views.premierdemands_report, name='demand_reports'),
     path('journal_entry/', views.journal_entry, name='journals'),
     path('create_book/', views.create_book_normal, name='book_journal'),
-    path('journal_test/',views.journalDetails,name = 'updates'),
+    # path('approve_reject/',views.reject_approve,name ='reject_approve'),
     path('debit_test/',views.debit_form,name="debit_test"),
     path('journal_approval/',views.journal_approval,name="approve_journal"),
 

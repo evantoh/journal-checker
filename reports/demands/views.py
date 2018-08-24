@@ -20,9 +20,9 @@ import xlwt
 from .forms import PremierReportForm
 
 from .models import premier_log_refined,Journal_Entry
-from .forms import EntryJournalForm,DetailsForm,popupForm
-from .forms import BookFormset,DebitFormset,CreitFormset
-from .models import Book,Gl_accounts,Approve_Rejection
+from .forms import EntryJournalForm,PopupForm
+from .forms import BookFormset
+from .models import Book,Gl_accounts,Approve_Reject
 
 # function to create the gl_accounts of all type
 # def save_glaccounts(request):
@@ -245,30 +245,18 @@ def journal_entry(request):
     return render(request,'journal_entry.html', context)
 
 def journal_approval(request):
+    modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
- 
+    if modal_form.is_valid():
+        approve_reject =modal_form.cleaned_data['approve_reject']
+        reasons=modal_form.cleaned_data['reasons']
 
     return render(request,'approval.html',
                 {'data': journal_data,
+                'form':modal_form,
                 'title': 'Approve Journals'})
 
-# def journal_approval(request):
 
-#     journal_data=Journal_Entry.objects.all()
-
-#     return render(request,'refined.html',
-#                 {'data': journal_data,
-#                 'title': 'Approve Journals'})
-
-    
-
-
-def journalDetails(request, journal_id):
-    try:
-        journal =Journal_Entry.objects.get(pk=journal_id)
-    except school.DoesNotExist:
-        raise Http404
-    return render(request, 'approve_reject.html', {'journal': journal})
 
     
        
