@@ -44,28 +44,6 @@ from .models import Book,Gl_accounts,Approve_Reject
 #     return HttpResponse('data successfully saved gl-accounts type asset')
 
 
-def debit_form(request):
-    if request.method == 'GET':
-        debit_formset = DebitFormset(request.GET or None)
-        credit_formset = CreitFormset(request.GET or None)
-    elif request.method == 'POST':
-        debit_formset = DebitFormset(request.POST)
-        credit_formset = CreitFormset(request.POST)
-        if debit_formset.is_valid() and credit_formset.is_valid():
-            for debit_formset in debit_formset:
-                # extract name from each form and save
-                name = debit_formset.cleaned_data.get('name')
-                Book(name=name).save()
-            for credit_formset in credit_formset:
-                # extract name from each form and save
-                name = debit_formset.cleaned_data.get('name')
-
-    return render(request, 'debit.html',{
-        'debit_formset': debit_formset,'credit_formset':credit_formset,
-    })
-
-
-
 # Create your views here.
 def create_book_normal(request):
     template_name = 'test/create_normal.html'
@@ -109,6 +87,7 @@ def premium_users(request):
         names=str(firstName) + " " + str(lastName)
         premier_users(
             names=names,
+            
             status=status,
             title=title,
             email=email,
@@ -247,10 +226,15 @@ def journal_entry(request):
 def journal_approval(request):
     modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
+
     if modal_form.is_valid():
         approve_reject =modal_form.cleaned_data['approve_reject']
         reasons=modal_form.cleaned_data['reasons']
-
+        
+        Approve_Reject(
+            approve_reject=approve_reject,
+            reasons=reasons
+         ).save()
     return render(request,'approval.html',
                 {'data': journal_data,
                 'form':modal_form,
