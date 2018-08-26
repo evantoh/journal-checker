@@ -29,8 +29,8 @@
                                 <td style="white-space: nowrap">{{ item.notes }}</td>
                                 <td style="white-space: nowrap">{{ item.credit_branch }}</td>
                                 <td>
-                                    <a class="btn btn-success" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a> {% comment %} <button type="submit" class="btn btn-success" name="BTNval">click to view details</button>                                    {% endcomment %}
-                                    <div class="modal fade" id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+                                    <a class="btn btn-success" class="btn btn-info btn-lg" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a>
+                                    <div class="modal fade " id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
                                             <div class="modal-dialog " role="document ">
                                                 <div class="modal-content ">
                                                     <div class="modal-header ">
@@ -66,7 +66,8 @@
                                                         </div>
                                                         <div>
                                                             <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" ">
-                                                                {{ form|crispy }}
+                                                                
+                                                                {% bootstrap_form  form %}
                                                                 <button class="btn btn-primary " type="submit ">Submit</button>
                                                             </form>
                                                         </div>
