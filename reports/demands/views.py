@@ -97,7 +97,7 @@ def premium_users(request):
 
 def get_csv(request):
     url ="https://premierkenya.mambu.com/api/"
-    user = ('DEPAPI', '[&7B&Hq#MchM')
+    user = ('DEPAPI', '[7B&HqMchM')
     with open('/home/evans/Desktop/premium/prem/prem_test/static/Assets/Clients-premierkenya.csv') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in spamreader:
@@ -107,17 +107,17 @@ def get_csv(request):
         
             assignedBranchkey=clientsload['assignedBranchKey']
             email_add=''
-        #     all_users=premier_users.objects.filter(branch_key=assignedBranchkey)
-        #     for rw in all_users:
-        #         email = rw.email
-        #         title = rw.title
-        #         status = rw.status
-        #         names=rw.names
+            all_users=premier_users.objects.filter(branch_key=assignedBranchkey)
+            for rw in all_users:
+                email = rw.email
+                title = rw.title
+                status = rw.status
+                names=rw.names
 
-        #         if title == 'Branch Manager' and status == 'ACTIVE':
-        #             email_add = email
-        #             print(email_add)
-        # return email_add
+                if title == 'Branch Manager' and status == 'ACTIVE':
+                    email_add = email
+                    print(email_add)
+        return email_add
 
 # getting premier demand report
 def premierdemands_report(request):
@@ -206,7 +206,7 @@ def journal_entry(request):
         entryDate=journal_form.cleaned_data['entryDate']
         notes=journal_form.cleaned_data['notes']
 
-     
+        journal_form=EntryJournalForm()
 
         Journal_Entry(
             debit_amount= debit_amount,
