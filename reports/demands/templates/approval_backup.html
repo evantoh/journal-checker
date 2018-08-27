@@ -1,0 +1,93 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}{% load static %} {% block style %}
+<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %}{% load bootstrap3 %}
+
+<body class="home">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="journal_header">{{ title }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-striped table-hover" cellpadding='8' cellspacing='10'>
+                            <th>Journal #</th>
+                            <th>Creation Date</th>
+                            <th>Entry Date</th>
+                            <th>Dr Amount</th>
+                            <th>Cr Amount</th>
+                            <th>Notes</th>
+                            <th>Branch</th>
+                            <th>Details</th>
+                            {% for item in data %}
+                            <tr>
+                                <td style="white-space: nowrap">{{ item.id }}</td>
+                                <td style="white-space: nowrap">{{ item.created_at }}</td>
+                                <td style="white-space: nowrap">{{ item.entry_date }}</td>
+                                <td style="white-space: nowrap">{{ item.debit_amount }}</td>
+                                <td style="white-space: nowrap">{{ item.credit_amount }}</td>
+                                <td style="white-space: nowrap">{{ item.notes }}</td>
+                                <td style="white-space: nowrap">{{ item.credit_branch }}</td>
+                                <td>
+                                    <a class="btn btn-success" class="btn btn-info btn-lg" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a>
+                                    <div class="modal fade " id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+                                            <div class="modal-dialog " role="document ">
+                                                <div class="modal-content ">
+                                                    <div class="modal-header ">
+                                                        <h5 class="modal-title " id="exampleModalLabel ">journal approval for #{{ item.id}}</h5>
+                                                        <button type="button " class="close " data-dismiss="modal " aria-label="Close ">
+                                                            <span aria-hidden="true ">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body ">
+                                                        <div class="form-group ">
+                                                            <label >DEBIT AMOUNT:{{item.debit_amount}}<label>
+                                                        </div> 
+                                                        <div class="form-group ">
+                                                            <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>DEBIT BRANCH :{{item.debit_branch}}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>CREDIT BRANCH: <label>{{item.credit_branch }}
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>ENTRY DATE:{{item.entry_date}} <label>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label>Status:{{item.status}} <label>
+                                                        </div>
+                                                        <div>
+                                                            <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" ">
+                                                                
+                                                                {% bootstrap_form  form %}
+                                                                <button class="btn btn-primary " type="submit ">Submit</button>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                    </td>
+                                   
+                                </tr>
+                                {% endfor %}
+                            </table>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
+
+{% endblock %}
