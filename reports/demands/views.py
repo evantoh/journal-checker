@@ -235,7 +235,7 @@ def journal_approval(request):
             approve_reject=approve_reject,
             reasons=reasons
          ).save()
-    return render(request,'approval.html',
+    return render(request,'approval_backup.html',
                 {'data': journal_data,
                 'form':modal_form,
                 'title': 'Approve Journals'})
