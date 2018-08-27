@@ -24,7 +24,8 @@ class Journal_Entry(models.Model):
     
     def __str__(self):
         return self.notes
-  
+    class Meta:
+        ordering = ['-created_at']
 class Book(models.Model):
     name = models.CharField(max_length=255)
     isbn_number = models.CharField(max_length=13)
