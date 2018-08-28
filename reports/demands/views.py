@@ -226,16 +226,17 @@ def journal_entry(request):
 def journal_approval(request):
     modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
-
+    
 
     if modal_form.is_valid():
         approve_reject =modal_form.cleaned_data['approve_reject']
         reasons=modal_form.cleaned_data['reasons']
         
-        Approve_Reject(
-            approve_reject=approve_reject,
-            reasons=reasons
-         ).save()
+
+        # Approve_Reject(
+        #     approve_reject=approve_reject,
+        #     reasons=reasons
+        #  ).save()
     return render(request,'approval_backup.html',
                 {'data': journal_data,
                 'form':modal_form,
