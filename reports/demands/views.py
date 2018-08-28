@@ -226,12 +226,13 @@ def journal_entry(request):
 def journal_approval(request):
     modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
-    
+    for item in journal_data:
+        print(item.id)
 
     if modal_form.is_valid():
         approve_reject =modal_form.cleaned_data['approve_reject']
         reasons=modal_form.cleaned_data['reasons']
-        
+       
 
         # Approve_Reject(
         #     approve_reject=approve_reject,
