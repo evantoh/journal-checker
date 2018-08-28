@@ -22,10 +22,8 @@ class Journal_Entry(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     reasons=models.CharField(max_length=255,null=True)
     
-    def __str__(self):
-        return self.notes
-    class Meta:
-        ordering = ['-created_at']
+    
+
 class Book(models.Model):
     name = models.CharField(max_length=255)
     isbn_number = models.CharField(max_length=13)
