@@ -63,15 +63,19 @@ class EntryJournalForm(forms.Form):
 # EntryJournalFormset= formset_factory(EntryJournalForm, extra=2)
 
 # approval form
-class PopupForm(forms.Form):
-    TYPES = [
-        ('', '--------------'),
-        ('Approve','Approve'),
-        ('Reject ','Reject')
+class PopupForm(forms.ModelForm):
+    class Meta:
+        model =Journal_Entry
+        fields = ('status',) 
+# class PopupForm(forms.Form):
+#     TYPES = [
+#         ('', '--------------'),
+#         ('Approve','Approve'),
+#         ('Reject ','Reject')
 
-    ]
-    approve_reject = forms.ChoiceField(required=True,label='Approve/Reject',choices=TYPES,widget=forms.Select(attrs={'class':'debit_branch1'}))
-    reasons = forms.CharField(widget=forms.Textarea,label='Reasons',required=False)
+#     ]
+#     approve_reject = forms.ChoiceField(required=True,label='Approve/Reject',choices=TYPES,widget=forms.Select(attrs={'class':'debit_branch1'}))
+#     reasons = forms.CharField(widget=forms.Textarea,label='Reasons',required=False)
     
  
 
