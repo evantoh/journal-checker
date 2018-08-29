@@ -46,42 +46,47 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body ">
-                                                        <div class="form-group ">
-                                                            <label >ID:{{item.id}}<label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label >DEBIT AMOUNT:{{item.debit_amount}}<label>
-                                                        </div> 
-                                                        <div class="form-group ">
-                                                            <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>DEBIT BRANCH :{{item.debit_branch}}<label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>CREDIT BRANCH: <label>{{item.credit_branch }}
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>ENTRY DATE:{{item.entry_date}} <label>
-                                                        </div>
-                                                        <div class="form-group ">
-                                                            <label>Status:{{item.status}} <label>
-                                                        </div>
-                                                        <div>
-                                                            <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" ">  
-                                                                {% bootstrap_form  form %}
-                                                                <button class="btn btn-primary " type="submit ">Submit</button>
-                                                            </form>
-                                                        </div>
+                                                        <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" "> 
+                                                            <div class="form-group ">
+                                                                <input type="hidden " value="{{ item.id }} " name="hidden_id ">      
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label >DEBIT AMOUNT:{{item.debit_amount}}<label>
+                                                            </div> 
+                                                            <div class="form-group ">
+                                                                <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>DEBIT BRANCH :{{item.debit_branch}}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT BRANCH: <label>{{item.credit_branch }}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>ENTRY DATE:{{item.entry_date}} <label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>Status:{{item.status}} <label>
+                                                            </div> 
+                                                            {% for field in form %}
+                                                            {% bootstrap_field field %}
+                                                            {% endfor %} 
+                                                        
+                                                            <div>
+                                                                <button type="button " class="btn btn-primary ">Save changes</button>
+                                                            </div> 
+                                                        </form>
                                                     </div>
                                                 </div>
+
                                             </div>
+                                        </div>
                                         </div> 
                                     </td>             
                                 </tr>
