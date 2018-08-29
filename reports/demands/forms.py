@@ -51,7 +51,11 @@ class EntryJournalForm(forms.Form):
         
     TYPE_GLACCOUNT = [('', '-------------------------------')] + TYPES_GL
 
-    debit=forms.DecimalField(widget=forms.TextInput(attrs={'class' : 'debitform','placeholder': 'Ksh'}),max_digits=10, decimal_places=2,required=True, label='Debit')
+    debit=forms.DecimalField(widget=forms.TextInput(attrs={'class' : 'debitform',
+                                                            'placeholder': 'Ksh',
+                                                            'id': 'myCustomId'}),
+                                                            max_digits=10, decimal_places=2,required=True, label='Debit')
+    
     debit_gl = forms.ChoiceField(required=True,label='', choices=TYPE_GLACCOUNT,widget=forms.Select(attrs={'class':'debit_glform'}))
     debit_branch = forms.ChoiceField(required=True,label='',choices=TYPE_BRANCH,widget=forms.Select(attrs={'class':'debit_branch'}))
     credit=forms.DecimalField(widget=forms.TextInput(attrs={'class' : 'creditform','placeholder': 'Ksh'}),required=True,max_digits=10, decimal_places=2, label='Credit')
@@ -88,3 +92,108 @@ class BookForm(forms.Form):
         })
     )
 BookFormset = formset_factory(BookForm, extra=1)
+
+
+class DebitForm(forms.Form):
+    branches_url="https://momentumcreditltd.sandbox.mambu.com/api/branches"
+    branches=requests.get(branches_url,auth=('BACKUPTEST', 'backup123!@#123'))
+    branches_load=branches.json()
+    TYPES  = []
+
+    for rw in branches_load:
+        encodedKey=rw.get('encodedKey')
+        name= rw.get('name')
+        TYPES.append([str(name),str(name)])
+
+    TYPE_BRANCH = [('', '-------------------------------')] + TYPES
+
+    TYPES_GL=[]
+    gl_accounts=Gl_accounts.objects.all()
+    for rw in gl_accounts:
+        encoded_key=rw.encoded_key
+        glcode=rw.glCode
+        name=rw.name
+        TYPES_GL.append([encoded_key,(glcode +' '+ '-'+' '+ name)])
+        
+    TYPE_GLACCOUNT = [('', '-------------------------------')] + TYPES_GL
+    debit = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class' : 'form-control',
+            'placeholder': 'Amount in Ksh',
+            'class' : 'debitform'
+
+        })
+    )
+    debit_gl = forms.ChoiceField(
+            required=True,
+            label='',
+            choices=TYPE_GLACCOUNT,
+            widget=forms.Select(attrs={
+                'class':'debit_glform'
+                })
+        )
+    
+    debit_branch = forms.ChoiceField(
+            required=True,
+            label='',
+            choices=TYPE_BRANCH,
+            widget=forms.Select(attrs={
+                'class':'debit_branch'
+                })
+        )  
+DebitFormset = formset_factory(DebitForm, extra=1)
+
+class CreditForm(forms.Form):
+    branches_url="https://momentumcreditltd.sandbox.mambu.com/api/branches"
+    branches=requests.get(branches_url,auth=('BACKUPTEST', 'backup123!@#123'))
+    branches_load=branches.json()
+    TYPES  = []
+
+    for rw in branches_load:
+        encodedKey=rw.get('encodedKey')
+        name= rw.get('name')
+        TYPES.append([str(name),str(name)])
+
+    TYPE_BRANCH = [('', '-------------------------------')] + TYPES
+
+    TYPES_GL=[]
+    gl_accounts=Gl_accounts.objects.all()
+    for rw in gl_accounts:
+        encoded_key=rw.encoded_key
+        glcode=rw.glCode
+        name=rw.name
+        TYPES_GL.append([encoded_key,(glcode +' '+ '-'+' '+ name)])
+        
+    TYPE_GLACCOUNT = [('', '-------------------------------')] + TYPES_GL
+    credit = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class' : 'form-control',
+            'placeholder': 'Amount in Ksh',
+            'class' : 'creditform'
+
+        })
+    )
+    credit_gl = forms.ChoiceField(
+            required=True,
+            label='',
+            choices=TYPE_GLACCOUNT,
+            widget=forms.Select(attrs={
+                'class':'credit_glform'
+                })
+        )
+    
+    credit_branch = forms.ChoiceField(
+            required=True,
+            label='',
+            choices=TYPE_BRANCH,
+            widget=forms.Select(attrs={
+                'class':'credit_branch'
+                })
+        )  
+CreditFormset = formset_factory(CreditForm, extra=1)
