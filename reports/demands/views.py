@@ -11,7 +11,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template.context_processors import csrf
 
 from django.template import RequestContext
-from django.shortcuts import render_to_response, redirect,HttpResponse
+from django.shortcuts import render_to_response, redirect,HttpResponse,get_object_or_404
 
 import requests
 import json
@@ -21,7 +21,7 @@ from .forms import PremierReportForm
 
 from .models import premier_log_refined,Journal_Entry
 from .forms import EntryJournalForm,PopupForm
-from .forms import BookFormset
+from .forms import BookFormset,DebitFormset,CreditFormset
 from .models import Book,Gl_accounts,Approve_Reject
 
 # function to create the gl_accounts of all type
@@ -42,7 +42,6 @@ from .models import Book,Gl_accounts,Approve_Reject
 #             name=name
 #         ).save()
 #     return HttpResponse('data successfully saved gl-accounts type asset')
-
 
 # Create your views here.
 def create_book_normal(request):
@@ -65,6 +64,34 @@ def create_book_normal(request):
         'formset': formset,
         'heading': heading_message,
     })
+
+def debit_only(request):
+    template_name = 'test/debit_form.html'
+    heading_message = 'JOURNAL ENTRY'
+    if request.method == 'GET':
+        formset = DebitFormset(request.GET or None)
+        formset1 = CreditFormset(request.GET or None)
+    elif request.method == 'POST':
+        formset = DebitFormset(request.POST)
+        formset1 = CreditFormset(request.POST)
+        if formset.is_valid() and formset1.is_valid():
+            for form in formset:
+                # extract name from each form and save
+                debit = form.cleaned_data.get('debit')
+                debit_gl= form.cleaned_data.get('debit_gl')
+                debit_branch=form.cleaned_data.get('debit_branch')
+            for form1 in formset1:
+                # extract name from each form and save
+                credit = form1.cleaned_data.get('credit')
+                credit_gl= form1.cleaned_data.get('credit_gl')
+                credit_branch=form1.cleaned_data.get('credit_branch')
+            
+    return render(request, template_name, {
+            'formset1':formset1,
+            'formset': formset,
+            'heading': heading_message,
+            })
+
 
 def premium_users(request):
     paramdetails = {'fullDetails':'True', 'offset':'0', 'limit':'1000'}
@@ -226,8 +253,10 @@ def journal_entry(request):
 def journal_approval(request):
     modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
-    for item in journal_data:
-        print(item.id)
+    id =request.POST.get('hidden_id')
+    print(id)
+    
+
 
     if modal_form.is_valid():
         approve_reject =modal_form.cleaned_data['approve_reject']
@@ -240,11 +269,26 @@ def journal_approval(request):
         #  ).save()
     return render(request,'approval_backup.html',
                 {'data': journal_data,
-                'form':modal_form,
+                # 'form':modal_form,
                 'title': 'Approve Journals'})
 
 
-
+def update_status(request,id):
+    # new_status=Journal_Entry.objects.get(id=id)
     
+    # form =PopupForm(request.POST or None ,instance=new_status)
+    # if form.is_valid():
+    #     form.save()
+    #     return redirect('approve_journal') 
+    # else:
+    #     form = PopupForm()
+    # return render(request,'approval_backup.html',{"form":form,'new_status':new_status})        
+
+    instance = get_object_or_404(Journal_Entry, id=id)
+    form = PopupForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        return redirect('approve_journal')
+    return render(request, 'approval_backup.html', {'form': form}) 
        
     
