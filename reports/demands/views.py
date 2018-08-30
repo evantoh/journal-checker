@@ -56,8 +56,8 @@ def create_book_normal(request):
                 # extract name from each form and save
                 name = form.cleaned_data.get('name')
                 # save book instance
-                if name:
-                    Book(name=name).save()
+                print(name)
+                    
             # once all books are saved, redirect to book list view
             # return redirect('')
     return render(request, template_name, {
@@ -73,7 +73,7 @@ def journal_entry(request):
         debit_formset = DebitFormset(request.GET or None)
         credit_formset = CreditFormset(request.GET or None)
     elif request.method == 'POST':
-        date_notes_form=Date_NotesForm(request.GET or None)
+        date_notes_form=Date_NotesForm(request.POST)
         debit_formset = DebitFormset(request.POST)
         credit_formset = CreditFormset(request.POST)
         if debit_formset.is_valid() and credit_formset.is_valid() and date_notes_form.is_valid():
@@ -82,13 +82,13 @@ def journal_entry(request):
                 debit = form.cleaned_data.get('debit')
                 debit_gl= form.cleaned_data.get('debit_gl')
                 debit_branch=form.cleaned_data.get('debit_branch')
-                print(debit)
+                # print(debit,debit_gl,debit_branch)
             for form in credit_formset:
                 # extract name from each form and save
                 credit = form.cleaned_data.get('credit')
                 credit_gl= form.cleaned_data.get('credit_gl')
                 credit_branch=form.cleaned_data.get('credit_branch')
-
+                print(credit,credit_gl,credit_branch)
             entryDate=date_notes_form.cleaned_data.get('entryDate')
             notes=date_notes_form.cleaned_data.get('notes')
 
