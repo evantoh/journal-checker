@@ -52,13 +52,16 @@
 }
 
 .datepicker {
-    max-width: 260px;
-    height: 30px;
+    max-width: 286px;
+    height: 38px;
+    margin-top: 37px;
+    margin-left: -150px;
 }
 
 .notesform {
     max-width: 730px;
     max-height: 100px;
+    margin-left: -119px;
 }
 
 
