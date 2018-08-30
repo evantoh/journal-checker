@@ -69,28 +69,28 @@ def journal_entry(request):
     template_name = 'test/debit_form.html'
     heading_message = 'JOURNAL ENTRY'
     if request.method == 'GET':
-        journal_form=Date_NotesForm(request.GET or None)
-        formset = DebitFormset(request.GET or None)
-        formset1 = CreditFormset(request.GET or None)
+        date_notes_form=Date_NotesForm(request.GET or None)
+        debit_formset = DebitFormset(request.GET or None)
+        credit_formset = CreditFormset(request.GET or None)
     elif request.method == 'POST':
-        journal_form=Date_NotesForm(request.GET or None)
-        formset = DebitFormset(request.POST)
-        formset1 = CreditFormset(request.POST)
-        if formset.is_valid() and formset1.is_valid() and journal_form.is_valid():
-            for form in formset:
+        date_notes_form=Date_NotesForm(request.GET or None)
+        debit_formset = DebitFormset(request.POST)
+        credit_formset = CreditFormset(request.POST)
+        if debit_formset.is_valid() and credit_formset.is_valid() and date_notes_form.is_valid():
+            for form in debit_formset:
                 # extract name from each form and save
                 debit = form.cleaned_data.get('debit')
                 debit_gl= form.cleaned_data.get('debit_gl')
                 debit_branch=form.cleaned_data.get('debit_branch')
-            
-            for form1 in formset1:
+                print(debit)
+            for form in credit_formset:
                 # extract name from each form and save
-                credit = form1.cleaned_data.get('credit')
-                credit_gl= form1.cleaned_data.get('credit_gl')
-                credit_branch=form1.cleaned_data.get('credit_branch')
+                credit = form.cleaned_data.get('credit')
+                credit_gl= form.cleaned_data.get('credit_gl')
+                credit_branch=form.cleaned_data.get('credit_branch')
 
-            entryDate=journal_form.cleaned_data.get('entryDate')
-            notes=journal_form.cleaned_data.get('notes')
+            entryDate=date_notes_form.cleaned_data.get('entryDate')
+            notes=date_notes_form.cleaned_data.get('notes')
 
             Journal_Entry(
                 debit_amount= debit,
@@ -106,9 +106,9 @@ def journal_entry(request):
             return HttpResponse('Your journal was successfully created,THANK YOU !')
             
     return render(request, template_name, {
-            'formset1':formset1,
-            'formset': formset,
-            'journal_form':journal_form,
+            'credit_formset':credit_formset,
+            'debit_formset': debit_formset,
+            'journal_form':date_notes_form,
             'heading': heading_message,
             })
 
@@ -133,8 +133,7 @@ def premium_users(request):
 
         names=str(firstName) + " " + str(lastName)
         premier_users(
-            names=names,
-            
+            names=names, 
             status=status,
             title=title,
             email=email,
@@ -236,45 +235,11 @@ def premierdemands_report(request):
     return render(request,'reports.html', context)
 
 
-               
-
-
-# def journal_entry(request):
-#     journal_form =EntryJournalForm(request.POST or None)
-    
-    
-#     if journal_form.is_valid():
-#         debit_amount = journal_form.cleaned_data['debit']
-#         debit_glaccount= journal_form.cleaned_data['debit_gl']
-#         debit_branch=journal_form.cleaned_data['debit_branch']
-#         credit_amount = journal_form.cleaned_data['credit']
-#         credit_glaccount=journal_form.cleaned_data['credit_gl']
-#         credit_branch=journal_form.cleaned_data['credit_branch']
-#         entryDate=journal_form.cleaned_data['entryDate']
-#         notes=journal_form.cleaned_data['notes']
-
-#         journal_form=EntryJournalForm()
-
-#         # Journal_Entry(
-#         #     debit_amount= debit_amount,
-#         #     debit_glaccount=debit_glaccount,
-#         #     debit_branch=debit_branch,
-#         #     credit_amount=credit_amount,
-#         #     credit_glaccount=credit_glaccount,
-#         #     credit_branch=credit_branch,
-#         #     entry_date=entryDate,
-#         #     notes=notes,
-#         #     status="pending"
-#         # ).save()
-#         # return HttpResponse('Your journal was successfully created,THANK YOU !')
-#     context= { 'form': journal_form,}
-#     return render(request,'journal_entry.html', context)
-
 def journal_approval(request):
     modal_form =PopupForm(request.POST or None)
     journal_data=Journal_Entry.objects.all()
     id =request.POST.get('hidden_id')
-    print(id)
+    
     
 
 
