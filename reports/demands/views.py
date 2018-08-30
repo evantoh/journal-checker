@@ -88,7 +88,7 @@ def journal_entry(request):
                 credit = form.cleaned_data.get('credit')
                 credit_gl= form.cleaned_data.get('credit_gl')
                 credit_branch=form.cleaned_data.get('credit_branch')
-                print(credit,credit_gl,credit_branch)
+                # print(credit,credit_gl,credit_branch)
             entryDate=date_notes_form.cleaned_data.get('entryDate')
             notes=date_notes_form.cleaned_data.get('notes')
 
@@ -240,18 +240,11 @@ def journal_approval(request):
     journal_data=Journal_Entry.objects.all()
     id =request.POST.get('hidden_id')
     
-    
-
 
     if modal_form.is_valid():
         approve_reject =modal_form.cleaned_data['approve_reject']
         reasons=modal_form.cleaned_data['reasons']
-       
 
-        # Approve_Reject(
-        #     approve_reject=approve_reject,
-        #     reasons=reasons
-        #  ).save()
     return render(request,'approval_backup.html',
                 {'data': journal_data,
                 # 'form':modal_form,
@@ -259,16 +252,6 @@ def journal_approval(request):
 
 
 def update_status(request,id):
-    # new_status=Journal_Entry.objects.get(id=id)
-    
-    # form =PopupForm(request.POST or None ,instance=new_status)
-    # if form.is_valid():
-    #     form.save()
-    #     return redirect('approve_journal') 
-    # else:
-    #     form = PopupForm()
-    # return render(request,'approval_backup.html',{"form":form,'new_status':new_status})        
-
     instance = get_object_or_404(Journal_Entry, id=id)
     form = PopupForm(request.POST or None, instance=instance)
     if form.is_valid():
