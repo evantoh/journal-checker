@@ -1,91 +1,88 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% load static %} {% block container %} {% block style %}
-<link rel="stylesheet" href="{% static 'css/journals1.css' %}"> {% endblock style %}
-<div class="container-fluid">
-    <div class="whole_table">
-        <h3 class="panel-title">New Journal Entry</h3>
-        <form method="post" action="">
-            {% csrf_token %}
-            <div class="">
+<link rel="stylesheet" href="{% static 'css/journals.css' %}"> {% endblock style %}
+
+<div class="whole_table">
+
+    <h3 class="panel-title">New Journal Entry</h3>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <div class="panel-body">
+            <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <form class="form-horizontal" method="POST" action="">
-                                {% csrf_token %} {{ debit_formset.management_form }} {% for form in debit_formset %}
-                                <div class="row form-row spacer">
-                                    <div class="col-2">
-                                        <label>{{ form.debit.label }}</label>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>{{ form.debit_gl.label }}</label>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>{{ form.debit_branch.label }}</label>
-                                    </div>
+                    <form class="form-horizontal" method="POST" action="">
+                        {% csrf_token %} {{ debit_formset.management_form }} {% for form in debit_formset %}
+                        <div class="row form-row spacer">
+                            <div class="col-2">
+                                <label>{{ form.debit.label }}</label>
+                            </div>
+                            <div class="col-2">
+                                <label>{{ form.debit_gl.label }}</label>
+                            </div>
+                            <div class="col-2">
+                                <label>{{ form.debit_branch.label }}</label>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group">
+                                    {{ form.debit }} {{ form.debit_gl }}
                                     <div class="col-4">
                                         <div class="input-group">
-                                            {{ form.debit }} {{ form.debit_gl }}
-                                            <div class="col-4">
-                                                <div class="input-group">
-                                                    {{ form.debit_branch }}
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-success add-form-row" id="btn-plus">+</button>
-                                                    </div>
-                                                </div>
+                                            {{ form.debit_branch }}
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success add-form-row" id="btn-plus">+</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {% endfor %} {{ credit_formset.management_form }} {% for form in credit_formset %}
-                                <div class="row form-row1 spacer">
-                                    <div class="col-2">
-                                        <label>{{ form.credit.label }}</label>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>{{ form.credit_gl.label }}</label>
-                                    </div>
-                                    <div class="col-2">
-                                        <label>{{form.credit_branch.label}}</label>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="input-group">
-                                            {{ form.credit }} {{ form.credit_gl }}
-                                            <div class="col-4">
-                                                <div class="input-group">
-                                                    {{ form.credit_branch }}
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-success add-form-row1" id="btn-plus">+</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %} {{ journal_form|crispy }}
-
-
-                                <div class="row spacer">
-                                    <div class="col-4 offset-2">
-                                        <button type="submit" class="btn btn-block btn-default retriev_btn">
-                                            <span class="glyphicon glyphicon-plus"></span>Submit for approval
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
-
+                            </div>
                         </div>
 
-                    </div>
+                        {% endfor %} {{ credit_formset.management_form }} {% for form in credit_formset %}
+                        <div class="row form-row1 spacer">
+                            <div class="col-2">
+                                <label>{{ form.credit.label }}</label>
+                            </div>
+                            <div class="col-2">
+                                <label>{{ form.credit_gl.label }}</label>
+                            </div>
+                            <div class="col-2">
+                                <label>{{form.credit_branch.label}}</label>
+                            </div>
+                            <div class="col-4">
+                                <div class="input-group">
+                                    {{ form.credit }} {{ form.credit_gl }}
+                                    <div class="col-4">
+                                        <div class="input-group">
+                                            {{ form.credit_branch }}
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success add-form-row1" id="btn-plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %} {{ journal_form|crispy }}
+
+
+                        <div class="row spacer">
+                            <div class="col-4 offset-2">
+                                <button type="submit" class="btn btn-block btn-default retriev_btn">
+                                    <span class="glyphicon glyphicon-plus"></span>Submit for approval
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+
                 </div>
+
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+    <br style="clear:both">
 </div>
-
-
-
-{% endblock %} {% block custom_js %}
+{% comment %} <br class="clear" /> {% endcomment %} {% endblock %} {% block custom_js %}
 <script type="text/javascript">
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
