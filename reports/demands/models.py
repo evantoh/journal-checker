@@ -11,7 +11,7 @@ class premier_log_refined(models.Model):
 
 class Journal_Entry(models.Model):
     debit_amount=models.DecimalField(max_digits=10, decimal_places=2)
-    debit_glaccount=models.CharField(max_length=32)
+    debitglaccount=models.CharField(max_length=32)
     debit_branch=models.CharField(max_length=255)
     credit_amount=models.DecimalField(max_digits=10, decimal_places=2)
     credit_glaccount=models.CharField(max_length=32)
