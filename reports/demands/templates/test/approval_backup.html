@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}{% load static %} {% block style %}
+
+<link rel="stylesheet" href="{% static 'css/journal_approval.css' %}"> {% endblock style %}{% load bootstrap3 %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+
+<body class="home">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="journal_header">{{ title }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive" style="overflow-x: auto">
+                        <table class="table table-striped table-hover" id="table_id" class="display">
+                            <thead>
+                                <th>Journal #</th>
+                                <th>Creation Date</th>
+                                <th>Entry Date</th>
+                                <th>Dr Amount</th>
+                                <th>Cr Amount</th>
+                                <th>Notes</th>
+                                <th>Branch</th>
+                                <th>Details</th>
+                            </thead>
+                            <tbody>
+                                {% for item in data %}
+                                <tr>
+                                    <td style="white-space: nowrap">{{ item.id }}</td>
+                                    <td style="white-space: nowrap">{{ item.created_at }}</td>
+                                    <td style="white-space: nowrap">{{ item.entry_date }}</td>
+                                    <td style="white-space: nowrap">{{ item.debit_amount }}</td>
+                                    <td style="white-space: nowrap">{{ item.credit_amount }}</td>
+                                    <td style="white-space: nowrap">{{ item.notes }}</td>
+                                    <td style="white-space: nowrap">{{ item.credit_branch }}</td>
+                                    <td>
+                                        <a class="btn btn-success" class="btn btn-info btn-lg" role="button" data-toggle="modal" data-target="#approval{{ item.id }}">click to view details</a>
+                                        <div class="modal fade " id="approval{{ item.id }}" "tabindex="-1 " role="dialog " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+                                            <div class="modal-dialog " role="document ">
+                                                <div class="modal-content ">
+                                                    <div class="modal-header ">
+                                                        <h5 class="modal-title " id="exampleModalLabel ">journal approval for #{{ item.id}}</h5>
+                                                        <button type="button " class="close " data-dismiss="modal " aria-label="Close ">
+                                                            <span aria-hidden="true ">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body ">
+                                                        <form method="post " enctype="multipart/form-data " style="display: inline-block; " action=" "> 
+                                                            <div class="form-group ">
+                                                                <input type="hidden " value="{{ item.id }} " name="hidden_id ">      
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label >DEBIT AMOUNT:{{item.debit_amount}}<label>
+                                                            </div> 
+                                                            <div class="form-group ">
+                                                                <label>DEBIT GL_ACCOUNT:{{item.debit_glaccount}}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>DEBIT BRANCH :{{item.debit_branch}}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT AMOUNT: {{item.credit_amount }}<label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT GL_ACCOUNT:{{item.credit_glaccount}} <label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>CREDIT BRANCH: <label>{{item.credit_branch }}
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>ENTRY DATE:{{item.entry_date}} <label>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label>Status:{{item.status}} <label>
+                                                            </div> 
+                                                            {% for field in form %}
+                                                            {% bootstrap_field field %}
+                                                            {% endfor %} 
+                                                        
+                                                            <div>
+                                                                <button type="button " class="btn btn-primary ">Save changes</button>
+                                                            </div> 
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        </div> 
+                                    </td>             
+                                </tr>
+                                {% endfor %}
+                            </tbody>  
+                        </table>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript " src="http://code.jquery.com/jquery-1.7.1.min.js "></script>
+<script type="text/javascript " charset="utf8 " src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js "></script>
+<script>
+        $(document).ready( function () {
+            $('#table_id').DataTable();
+        } );
+</script>
+
+{% endblock %}
