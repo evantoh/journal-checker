@@ -1,0 +1,130 @@
+.whole_table {
+    max-width: 805px;
+    height: 439px;
+    margin: 1%;
+    border: 1px solid #5abf5a;
+    padding: 5px;
+    overflow: auto;
+}
+
+.clear {
+    clear: both;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    margin-left: 40px;
+    margin-top: -10px;
+}
+
+.panel-title {
+    font-family: helvetica neue, helvetica, arial, sans-serif;
+    color: #8ab131;
+    font-size: 2em;
+    margin-left: 260px;
+    font-weight: 200;
+}
+
+.panel-default>.panel-heading {
+    background-color: #f5f5f5;
+}
+
+#btn-plus {
+    margin-left: 300px;
+    margin-top: -29px;
+    height: 30px;
+}
+
+
+/* debit and credit forms styling */
+
+.debitform {
+    margin-top: 20px;
+    margin-left: -387px;
+    height: 30px;
+    width: 119px;
+}
+
+.creditform {
+    margin-top: 20px;
+    margin-left: -397px;
+    height: 30px;
+    width: 119px;
+}
+
+.debit_glform {
+    max-width: 240px;
+    height: 30px;
+    margin-left: 70px;
+    margin-top: 20px;
+}
+
+.credit_glform {
+    max-width: 240px;
+    height: 30px;
+    margin-left: 70px;
+    margin-top: 20px;
+}
+
+.debit_branch {
+    height: 30px;
+    margin-left: 38px;
+    margin-top: 20px;
+}
+
+.credit_branch {
+    height: 30px;
+    margin-left: 38px;
+    margin-top: 20px;
+}
+
+.datepicker {
+    height: 30px;
+    /* margin-top: 37px; */
+    margin-left: 10px;
+    width: 305px;
+    margin-top: 30px;
+}
+
+.notesform {
+    max-height: 100px;
+    margin-left: 10px;
+    width: 590px;
+}
+
+
+/* attaching a file btn */
+
+.attach_file {
+    border-radius: 2px;
+    background-image: -moz-linear-gradient(100% 100% 90deg, #8ab131, #c7ff47);
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#8AB131), to(#C7FF47));
+    border: 1px solid #8ab131;
+    color: #333;
+    cursor: pointer;
+    display: inline;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 3px 15px;
+    text-shadow: 0 0 1px white;
+    font-family: helvetica neue, helvetica, arial, sans-serif;
+    max-width: 100px;
+}
+
+
+/* logging new journal entry btn */
+
+.retriev_btn {
+    background-image: -moz-linear-gradient(100% 100% 90deg, #8ab131, #c7ff47);
+    background-image: -webkit-gradient(linear, 0% 100%, 0% 0%, from(#8AB131), to(#C7FF47));
+    border: 1px solid #8ab131;
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: -1px 15px;
+    font-family: helvetica neue, helvetica, arial, sans-serif;
+    margin-left: 150px;
+}
