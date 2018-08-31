@@ -66,7 +66,7 @@ def create_book_normal(request):
     })
 
 def journal_entry(request):
-    template_name = 'test/debit_form.html'
+    template_name = 'journal_entry.html'
     heading_message = 'JOURNAL ENTRY'
     if request.method == 'GET':
         date_notes_form=Date_NotesForm(request.GET or None)
@@ -94,7 +94,7 @@ def journal_entry(request):
 
             Journal_Entry(
                 debit_amount= debit,
-                debit_glaccount=debit_gl,
+                debitglaccount=debit_gl,
                 debit_branch=debit_branch,
                 credit_amount=credit,
                 credit_glaccount=credit_gl,
@@ -245,7 +245,7 @@ def journal_approval(request):
         approve_reject =modal_form.cleaned_data['approve_reject']
         reasons=modal_form.cleaned_data['reasons']
 
-    return render(request,'approval_backup.html',
+    return render(request,'approval.html',
                 {'data': journal_data,
                 # 'form':modal_form,
                 'title': 'Approve Journals'})
