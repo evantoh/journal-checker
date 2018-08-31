@@ -156,7 +156,7 @@ CreditFormset = formset_factory(CreditForm, extra=1)
 class Date_NotesForm(forms.Form):
     entryDate = forms.DateField(
         required=True,
-        label='Entry date',
+        label='',
         widget=forms.TextInput(attrs={
             'class':'datepicker',
             'placeholder': 'Entry Dates',
@@ -164,7 +164,7 @@ class Date_NotesForm(forms.Form):
         )
     notes = forms.CharField(
         required=True,
-        label='notes',
+        label='',
         widget=forms.Textarea(attrs={
             'class' : 'notesform',
             'placeholder': 'Notes',
